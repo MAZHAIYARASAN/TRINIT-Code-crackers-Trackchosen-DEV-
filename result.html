@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Page</title>
+</head>
+<body>
+    <h1>Generated Questions</h1>
+
+    <form action="{{ url_for('grade_attempt') }}" method="post">
+        <ul>
+            {% for question in questions %}
+                <li>
+                    <p>{{ question[0] }}</p>
+                    <ul>
+                        {% for option in question[1:] %}
+                            <li>
+                                <input type="radio" name="question{{ loop.index }}" value="{{ option }}"> {{ option }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <button type="submit">Submit Answers</button>
+    </form>
+
+    <h2>Correct Answers</h2>
+    <ul>
+        {% for question in questions %}
+            <li>
+                <p>{{ question[0] }}</p>
+                <p>Correct Answer: {{ question[1] }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% if percentage_correct is defined %}
+        <h2>Your Score</h2>
+        <p>{{ percentage_correct }}% Correct</p>
+    {% endif %}
+</body>
+</html>
